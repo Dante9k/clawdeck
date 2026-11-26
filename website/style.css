@@ -541,6 +541,43 @@ html[lang='zh-CN'] h1 {
 .section {
   padding-block: 105px;
 }
+.enterprise {
+  border-bottom: 1px solid var(--line);
+}
+.capabilities {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+}
+.capabilities article {
+  border-top: 2px solid var(--green);
+  padding-top: 22px;
+}
+.capabilities article:last-child {
+  border-color: var(--line);
+}
+.capabilities h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 18px;
+}
+.capabilities ul {
+  padding-left: 18px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.9;
+}
+.capabilities li {
+  margin-bottom: 9px;
+}
+.enterprise-note {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.9;
+  max-width: 900px;
+  margin: 28px 0 18px;
+}
 .section-title {
   font-family: Manrope, 'Microsoft YaHei', sans-serif;
   font-weight: 500;
@@ -879,6 +916,16 @@ footer p {
   }
 }
 @media (max-width: 760px) {
+  .capabilities {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .capabilities h3 {
+    font-size: 16px;
+  }
+  .capabilities ul {
+    font-size: 12px;
+  }
   .wrap {
     width: calc(100% - 40px);
   }

@@ -1,8 +1,10 @@
 # ClawDeck
 
-**One server. All your claws.**
+**Enterprise OpenClaw management. On your infrastructure.**
 
-A self-hosted control panel for a fleet of OpenClaw containers on one Linux Docker host. See container health, manage models and API keys, configure channels, and review changes before applying them.
+ClawDeck is an open-source OpenClaw management platform for enterprise IT operations and AI platform teams. Centralize instance operations, model/provider configuration and channels, with change review, backup recovery and operation records on your own infrastructure.
+
+The current release candidate is a **single-host pilot edition** for trusted administrators. Enterprise identity, RBAC/SSO, approval workflows, encrypted credential storage and multi-server management are planned, not delivered. See the [enterprise roadmap](docs/ROADMAP.md).
 
 [Website](https://clawdeck.jupyter-community.chatgpt.site/) · [Interactive demo](https://clawdeck.jupyter-community.chatgpt.site/demo.html) · [Quick start](docs/GETTING_STARTED.md) · [简体中文](README.zh-CN.md)
 
@@ -13,7 +15,7 @@ A self-hosted control panel for a fleet of OpenClaw containers on one Linux Dock
 
 ## Why ClawDeck?
 
-Once you run more than one OpenClaw container, routine tasks spread across terminals, configuration files and browser tabs. ClawDeck brings those tasks into one console, while keeping your existing Compose deployments and configuration files.
+Enterprise teams need a consistent way to operate OpenClaw instances, review configuration changes and recover from mistakes. ClawDeck brings those tasks into one console while preserving existing Compose deployments. The current edition records operations and outcomes under a shared administrator session; it does not attribute activity to individual people.
 
 | Task                  | What ClawDeck does                                                                                |
 | --------------------- | ------------------------------------------------------------------------------------------------- |

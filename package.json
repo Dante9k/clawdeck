@@ -3,7 +3,7 @@
   "version": "1.0.0-rc.2",
   "private": true,
   "type": "module",
-  "description": "Self-hosted OpenClaw fleet dashboard for one Docker server",
+  "description": "Enterprise OpenClaw management platform — current single-host pilot edition",
   "engines": {
     "node": ">=22.14"
   },
