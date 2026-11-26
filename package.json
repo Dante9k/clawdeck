@@ -1,0 +1,35 @@
+{
+  "name": "clawdeck",
+  "version": "1.0.0-rc.2",
+  "private": true,
+  "type": "module",
+  "description": "Self-hosted OpenClaw fleet dashboard for one Docker server",
+  "engines": {
+    "node": ">=22.14"
+  },
+  "packageManager": "pnpm@11.25.0",
+  "scripts": {
+    "start": "node server.mjs",
+    "demo": "node server.mjs --demo",
+    "test": "node --test test/*.test.mjs",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "pnpm format:check && pnpm lint && pnpm test",
+    "build:preview": "node scripts/build-preview.mjs",
+    "build:site": "node scripts/build-site.mjs",
+    "setup": "node scripts/setup.mjs"
+  },
+  "devDependencies": {
+    "eslint": "10.15.0",
+    "prettier": "3.10.1",
+    "esbuild": "0.28.2",
+    "globals": "17.14.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Dante9k/clawdeck.git"
+  },
+  "homepage": "https://clawdeck.jupyter-community.chatgpt.site"
+}

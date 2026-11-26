@@ -1,0 +1,12 @@
+.env
+data/
+node_modules/
+artifacts/
+.env.*
+!.env.example
+.pnpm-store/
+website/dist/
+coverage/
+*.log
+.DS_Store
+Thumbs.db

@@ -1,0 +1,48 @@
+services:
+  clawdeck:
+    build: .
+    container_name: clawdeck
+    restart: unless-stopped
+    stop_grace_period: 90s
+    ports:
+      - '${PANEL_BIND:-127.0.0.1}:${PANEL_PORT:-3210}:3210'
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3210
+      PANEL_PASSWORD: ${PANEL_PASSWORD:?Set PANEL_PASSWORD in .env (at least 16 characters)}
+      SERVER_NAME: ${SERVER_NAME:-}
+      SERVER_ADDRESS: ${SERVER_ADDRESS:-}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      DATA_DIR: /data
+    volumes:
+      - ${DOCKER_SOCKET_PATH:-/var/run/docker.sock}:/var/run/docker.sock
+      - clawdeck-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=16m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 128
+    mem_limit: 512m
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
+    labels:
+      io.clawdeck.managed: 'false'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:3210/api/session').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+volumes:
+  clawdeck-data:

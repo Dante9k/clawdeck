@@ -1,0 +1,13 @@
+.env
+.git
+node_modules
+data
+test
+artifacts
+README.md
+.pnpm-store
+website
+docs
+preview.html
+.env.*
+.github
