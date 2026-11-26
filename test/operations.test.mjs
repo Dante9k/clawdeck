@@ -67,3 +67,8 @@ test('failed persistence releases a reservation without poisoning subsequent wor
     status: 409,
   });
 });
+
+test('persistence independently refuses an unsafe record ID', async (t) => {
+  const { operations } = await fixture(t);
+  await assert.rejects(operations.persist({ id: '../outside' }), /无效操作记录编号/);
+});

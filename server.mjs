@@ -2,7 +2,8 @@ import http from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
-import { randomBytes, createHash, timingSafeEqual } from 'node:crypto';
+import { randomBytes, scrypt as scryptCallback, timingSafeEqual } from 'node:crypto';
+import { promisify } from 'node:util';
 import { Docker, demux, managed } from './lib/docker.mjs';
 import { redact, revision, editable, applyEditable, scrubLogs, configDiff } from './lib/config.mjs';
 import { demoData } from './lib/demo.mjs';
@@ -12,13 +13,15 @@ import { createFleet } from './lib/fleet.mjs';
 import { fail, json, body, verifyOrigin } from './lib/http.mjs';
 const root = path.dirname(fileURLToPath(import.meta.url));
 const { version } = JSON.parse(await readFile(new URL('./package.json', import.meta.url), 'utf8'));
-const sha = (value) => createHash('sha256').update(value).digest();
+const derivePassword = promisify(scryptCallback);
 const validId = (id) => /^[a-zA-Z0-9_-]{1,64}$/.test(id);
 export async function createApp(options = {}) {
   const demo = options.demo ?? false;
   const password = options.password ?? process.env.PANEL_PASSWORD;
   if (!demo && (!password || password.length < 16))
     throw new Error('请设置至少 16 位 PANEL_PASSWORD；演示请显式使用 --demo。');
+  const passwordSalt = randomBytes(16);
+  const passwordHash = password ? await derivePassword(password, passwordSalt, 32) : null;
   const docker = options.docker || new Docker();
   const demoState = demoData();
   const helper = await readFile(path.join(root, 'lib/container-helper.cjs'), 'utf8');
@@ -128,8 +131,8 @@ export async function createApp(options = {}) {
         if (attempt.count > 8) throw fail(429, '尝试次数过多，请一分钟后重试。');
         if (
           typeof input.password !== 'string' ||
-          !password ||
-          !timingSafeEqual(sha(input.password), sha(password))
+          !passwordHash ||
+          !timingSafeEqual(await derivePassword(input.password, passwordSalt, 32), passwordHash)
         )
           throw fail(401, '管理密码不正确。');
         if (sessions.size >= 1000) sessions.delete(sessions.keys().next().value);
